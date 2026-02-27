@@ -2,15 +2,14 @@
 """Basic Authentication module
 """
 from api.v1.auth.auth import Auth
+import base64
 
 
 class BasicAuth(Auth):
     """BasicAuth class that inherits from Auth
     """
     def extract_base64_authorization_header(
-        self,
-        authorization_header: str
-    ) -> str:
+        self,authorization_header: str) -> str:
         """Extract Base64 part of Authorization header"""
 
         if authorization_header is None:
@@ -23,3 +22,18 @@ class BasicAuth(Auth):
             return None
 
         return authorization_header.split(" ", 1)[1]
+
+    def decode_base64_authorization_header(
+        self,base64_authorization_header: str) -> str:
+        """Decode a Base64 authorization header"""
+
+        if base64_authorization_header is None:
+            return None
+
+        if type(base64_authorization_header) is not str:
+            return None
+        try:
+            decoded = base64.b64decode(base64_authorization_header)
+            return decoded.decode('utf-8')
+        except Exception:
+            return None
