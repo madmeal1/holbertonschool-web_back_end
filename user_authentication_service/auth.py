@@ -18,6 +18,7 @@ class Auth:
     """
 
     def __init__(self):
+        """init"""
         self._db = DB()
 
     def register_user(self, email: str, password: str) -> User:
@@ -39,6 +40,5 @@ class Auth:
                 password.encode("utf-8"),
                 user.hashed_password
             )
-
         except NoResultFound:
             return False
