@@ -16,4 +16,3 @@ class User(Base):
     hashed_password: str = Column(String(250), nullable=False)
     session_id: str = Column(String(250), nullable=True)
     reset_token: str = Column(String(250), nullable=True)
-    
