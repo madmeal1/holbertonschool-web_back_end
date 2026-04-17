@@ -8,9 +8,11 @@ from user import User
 from sqlalchemy.orm.exc import NoResultFound
 from uuid import uuid4
 
+
 def _hash_password(password: str) -> bytes:
     """Hashes a password using bcrypt and returns the salted hash"""
     return bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt())
+
 
 def _generate_uuid() -> str:
     """Generate a new UUID string
@@ -18,12 +20,14 @@ def _generate_uuid() -> str:
     UUID = uuid4()
     return str(UUID)
 
+
 class Auth:
     """Auth class to interact with the authentication database.
     """
 
     def __init__(self):
-        """init"""
+        """Initialize the Auth instance with a DB connection
+        """
         self._db = DB()
 
     def register_user(self, email: str, password: str) -> User:
@@ -35,7 +39,7 @@ class Auth:
             hashed_password = _hash_password(password)
             user = self._db.add_user(email, hashed_password)
             return user
-        
+
     def valid_login(self, email: str, password: str) -> bool:
         """Validate user credentials"""
         try:
