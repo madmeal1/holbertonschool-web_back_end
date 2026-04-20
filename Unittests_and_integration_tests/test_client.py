@@ -3,9 +3,8 @@
 import unittest
 from parameterized import parameterized, parameterized_class
 from fixtures import TEST_PAYLOAD
-from unittest.mock import patch
 from client import GithubOrgClient
-from unittest.mock import patch, PropertyMock
+from unittest.mock import patch, PropertyMock, Mock
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -83,7 +82,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     def setUpClass(cls):
         """Set up class by mocking requests.get"""
         def side_effect(url):
-            mock_response = unittest.mock.Mock()
+            mock_response = Mock()
             if url == GithubOrgClient.ORG_URL.format(org="google"):
                 mock_response.json.return_value = cls.org_payload
             else:
