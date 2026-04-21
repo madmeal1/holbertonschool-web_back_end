@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""Get locale from request"""
+"""Parametrize templates with Flask-Babel"""
 from flask import Flask, render_template, request
-from flask_babel import Babel, gettext as _
+from flask_babel import Babel, gettext
+
 
 class Config:
     """Configuration class for Flask app"""
@@ -12,7 +13,6 @@ class Config:
 
 app = Flask(__name__)
 app.config.from_object(Config)
-babel = Babel()
 
 
 def get_locale() -> str:
@@ -20,13 +20,18 @@ def get_locale() -> str:
     return request.accept_languages.best_match(app.config["LANGUAGES"])
 
 
-babel.init_app(app, locale_selector=get_locale)
+babel = Babel(app, locale_selector=get_locale)
+
+
+def _(text: str) -> str:
+    """Translate a string using gettext"""
+    return gettext(text)
 
 
 @app.route("/")
 def index() -> str:
     """Render the index page"""
-    return render_template("2-index.html")
+    return render_template("3-index.html")
 
 
 if __name__ == "__main__":
