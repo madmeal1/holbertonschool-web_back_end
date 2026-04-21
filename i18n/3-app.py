@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Parametrize templates with Flask-Babel"""
 from flask import Flask, render_template, request
-from flask_babel import Babel, gettext
+from flask_babel import Babel, gettext as babel_gettext
 
 
 class Config:
@@ -23,9 +23,9 @@ def get_locale() -> str:
 babel = Babel(app, locale_selector=get_locale)
 
 
-def _(text: str) -> str:
-    """Translate a string using gettext"""
-    return gettext(text)
+def gettext(message: str) -> str:
+    """Translate a message using Flask-Babel"""
+    return babel_gettext(message)
 
 
 @app.route("/")
