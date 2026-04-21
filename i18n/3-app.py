@@ -24,7 +24,10 @@ babel = Babel(app, locale_selector=get_locale)
 
 
 def gettext(message: str) -> str:
-    """Translate a message using Flask-Babel"""
+    """Translate a message using Flask-Babel
+
+       Not enough
+    """
     return babel_gettext(message)
 
 
