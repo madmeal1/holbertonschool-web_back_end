@@ -30,7 +30,10 @@ def _(text: str) -> str:
 
 @app.route("/")
 def index() -> str:
-    """Render the index page"""
+    """Render the index page
+
+       Return render
+    """
     return render_template("3-index.html")
 
 
