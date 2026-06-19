@@ -9,6 +9,29 @@ import uuid
 import redis
 
 
+def replay(method: Callable) -> None:
+    """
+    Display the history of calls of a particular function.
+    """
+    redis_client = method.__self__._redis
+
+    name = method.__qualname__
+
+    count = redis_client.get(name)
+    count = int(count) if count else 0
+
+    print(f"{name} was called {count} times:")
+
+    inputs = redis_client.lrange(f"{name}:inputs", 0, -1)
+    outputs = redis_client.lrange(f"{name}:outputs", 0, -1)
+
+    for inp, out in zip(inputs, outputs):
+        print(
+            f"{name}(*{inp.decode('utf-8')}) -> "
+            f"{out.decode('utf-8')}"
+        )
+
+
 def call_history(method: Callable) -> Callable:
     """
     Store the history of inputs and outputs for a method.
